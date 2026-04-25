@@ -33,7 +33,7 @@ app.add_middleware(
 # ─────────────────────────────────────────
 # LOAD FROM HUGGINGFACE HUB (auto, no local files)
 # ─────────────────────────────────────────
-HF_REPO = os.getenv("HF_REPO", "YOUR_HF_USERNAME/indian-food-recommender")
+HF_REPO = os.getenv("HF_REPO", "iconicrahul543/indian-food-recommender")
 
 print(f"🔄 Loading model from HuggingFace: {HF_REPO}")
 model = SentenceTransformer(HF_REPO)
