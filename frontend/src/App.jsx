@@ -266,7 +266,7 @@ export default function App() {
   // ── Customer page ──
   if (page === "customer") return (
     <>
-      <CustomerTable />
+      <CustomerTable/Room />
       <button className="back-btn" onClick={() => navigate("home")}>
         ← Demo Home
       </button>
@@ -302,22 +302,22 @@ export default function App() {
       <style>{styles}</style>
 
       <div className="home-logo">SmartMenu</div>
-      <div className="home-sub">AI · Restaurant · QR System</div>
+      <div className="home-sub">AI · Restaurant/ Hotel · QR System</div>
       <div className="home-badge">
         <div className="dot" /> Live Demo
       </div>
 
       {/* Customer Tables */}
       <div className="demo-box">
-        <div className="demo-label">📱 Customer Tables — Tap to Open</div>
+        <div className="demo-label">📱 Customer Tables/ Room — Tap to Open</div>
 
         {/* ✅ FIX Bug 3: tableId URL se nahi, splash se select karo
             Demo mein table param nahi bhejte — user splash pe select kare
             Real QR code URL mein table param hoga → wo seedha menu kholta hai */}
-        {["T1","T2","T3"].map(t => (
+        {["T/R1","T/R2","T/R3"].map(t => (
           <div className="demo-row" key={t}>
             <div>
-              <div className="demo-row-info">Table {t}</div>
+              <div className="demo-row-info">Table/Room {t}</div>
               <div className="demo-row-sub">
                 QR → Menu → Order → Pay
               </div>
@@ -334,14 +334,14 @@ export default function App() {
 
       {/* QR Code for T1 */}
       <div className="qr-section">
-        <div className="qr-label">📷 Scan QR — Table T1</div>
+        <div className="qr-label">📷 Scan QR — Table/Room T/R1</div>
         <img
           className="qr-img"
-          src={qrSrc(getTableURL("T1"))}
-          alt="QR Code Table T1"
+          src={qrSrc(getTableURL("T/R1"))}
+          alt="QR Code Table/Room T/R1"
         />
         <div className="qr-caption">
-          Scan this with your phone camera to open Table T1
+          Scan this with your phone camera to open Table/Room T/R1
         </div>
       </div>
 
@@ -363,7 +363,7 @@ export default function App() {
           <div className="demo-row">
             <div>
               <div className="demo-row-info">⚙️ Admin Panel</div>
-              <div className="demo-row-sub">Menu · Orders · Tables · Add dish</div>
+              <div className="demo-row-sub">Menu · Orders · Tables/Rooms · Add dish</div>
             </div>
             <button className="demo-btn" onClick={() => navigate("admin")}>
               Open →
