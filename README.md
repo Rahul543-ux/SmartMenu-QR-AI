@@ -1,4 +1,4 @@
-# 🍽️ SmartMenu — AI-Powered Restaurant QR System
+# 🍽️ SmartMenu — AI-Powered Restaurant/Hotel QR System
 
 > **Full-stack AI Restaurant/Hotel Management System** with smart food recommendations, real-time kitchen dashboard, and QR-based ordering — built from scratch using FastAPI, React, and Sentence Transformers.
 
