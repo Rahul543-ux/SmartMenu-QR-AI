@@ -968,7 +968,7 @@ export default function CustomerTable() {
       <div className="status-icon">🎉</div>
       <h1 className="status-title">Order Placed!</h1>
       <p className="status-sub">
-        Kitchen ko order mil gaya — wait karo!
+        Kitchen has received your order - please wait!
       </p>
 
       {orderResult && (
