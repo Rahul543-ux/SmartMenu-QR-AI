@@ -537,7 +537,7 @@ export default function AdminDashboard() {
           >
             {t === "menu" ? "🍽 Menu" :
              t === "orders" ? "📋 Orders" :
-             t === "tables" ? "🪑 Tables" : "➕ Add Dish"}
+             t === "tables" ? "🪑 Tables/Rooms" : "➕ Add Dish"}
           </button>
         ))}
       </div>
@@ -657,7 +657,7 @@ export default function AdminDashboard() {
         ))}
 
         {/* ── TABLES TAB ── */}
-        {tab === "tables" && !loading && (
+        {tab === "tables/rooms" && !loading && (
           <div className="tables-grid">
             {tables.map(t => (
               <div
