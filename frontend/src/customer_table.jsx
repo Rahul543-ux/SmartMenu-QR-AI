@@ -1180,11 +1180,14 @@ export default function CustomerTable() {
                     ? "#1e1b4b" : order.status === "ready" 
                     ? "#0a2a1a" : order.status === "preparing" 
                     ? "#2a200a" : "#1a2a3a",
-                  color: order.status === "ready"
-                    ? "var(--green)" : order.status === "preparing"
+
+                  color: order.status === "delivered" 
+                    ? "#c4b5fd" : order.status === "ready" 
+                    ? "var(--green)" : order.status === "preparing" 
                     ? "#fbbf24" : "#60a5fa"
                 }}>
-                  {order.status === "ready" ? "✅ Ready!" :
+                  {order.status === "delivered" ? "🍽️ Delivered" :
+                   order.status === "ready" ? "✅ Ready!" :
                    order.status === "preparing" ? "🔥 Cooking" : "⏳ Received"}
                 </span>
               </div>
