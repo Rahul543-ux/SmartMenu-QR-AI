@@ -1,6 +1,6 @@
 # 🍽️ SmartMenu — AI-Powered Restaurant QR System
 
-> **Full-stack AI Restaurant Management System** with smart food recommendations, real-time kitchen dashboard, and QR-based ordering — built from scratch using FastAPI, React, and Sentence Transformers.
+> **Full-stack AI Restaurant/Hotel Management System** with smart food recommendations, real-time kitchen dashboard, and QR-based ordering — built from scratch using FastAPI, React, and Sentence Transformers.
 
 <br/>
 
@@ -30,13 +30,19 @@
 SmartMenu is a **production-ready AI restaurant/Hotel system** where customers scan a QR code on their table or Room, browse the menu, ask an AI waiter for recommendations, and place orders — all from their phone. Kitchen staff get a live dashboard with timers, and admins can manage the full menu in real time.
 
 **The Problem it Solves:**
-- Traditional menus are static — no AI, no personalization
+- Traditional menus are static — SmartMenu delivers
+  AI-powered personalization in real time
 - Kitchen staff rely on paper or verbal communication
-- No smart budget-aware recommendations for customers
-- Eliminates repeated waiter interruptions like “Sir, what would you like to order?”, allowing guests to order
-  comfortably at their own pace
-- Solves the constant hotel reception calls for room food orders, reducing call traffic and making room service seamless
-  through QR ordering
+  — a live dashboard with timers eliminates the chaos
+- Customers with tight budgets have no guidance
+  — SmartMenu's AI suggests the best options within
+  their exact budget
+- Eliminates repeated waiter interruptions like
+  "Sir, what would you like to order?", allowing
+  guests to order comfortably at their own pace
+- Solves the constant hotel reception calls for room
+  food orders, reducing call traffic and making room
+  service seamless through QR ordering
 
 **SmartMenu fixes all five.**
 
