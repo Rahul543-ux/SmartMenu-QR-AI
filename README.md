@@ -33,8 +33,12 @@ SmartMenu is a **production-ready AI restaurant/Hotel system** where customers s
 - Traditional menus are static — no AI, no personalization
 - Kitchen staff rely on paper or verbal communication
 - No smart budget-aware recommendations for customers
+- Eliminates repeated waiter interruptions like “Sir, what would you like to order?”, allowing guests to order
+  comfortably at their own pace
+- Solves the constant hotel reception calls for room food orders, reducing call traffic and making room service seamless
+  through QR ordering
 
-**SmartMenu fixes all three.**
+**SmartMenu fixes all five.**
 
 <br/>
 
@@ -59,7 +63,7 @@ SmartMenu is a **production-ready AI restaurant/Hotel system** where customers s
 - Real-time countdown timer per order
   - 🟢 0–8 min | 🟡 8–15 min | 🔴 15+ min (urgent)
 - Strict order flow: **Received → Cooking → Ready → Delivered**
-- Table auto-frees on delivery
+- Table auto-frees on Completed
 
 ### ⚙️ Admin Panel
 - Menu management — toggle dish ON/OFF
@@ -75,7 +79,7 @@ SmartMenu is a **production-ready AI restaurant/Hotel system** where customers s
   - Category routing (drink, dessert, breakfast, main course...)
   - Budget filtering
   - Spice preference matching
-- **Precision@3 = 0.88** on internal test set
+- **Precision@7 = 0.80** on internal test set
 - Hosted on HuggingFace Hub — loads automatically at startup
 
 <br/>
@@ -212,7 +216,7 @@ Each dish includes: `food_type`, `spice_level`, `category`, `region`, `meal_type
 
 | Metric | Score |
 |---|---|
-| Precision@3 | **0.88** |
+| Precision@7 | **0.80** |
 | Intent Detection | Veg/Non-veg, Category, Budget, Spice |
 | Dataset Size | 87 dishes |
 | Model Parameters | ~22M |
@@ -300,7 +304,7 @@ embeddings = model.encode(["Butter Chicken", "Masala Dosa"])
 
 - 🤗 HuggingFace: [iconicrahul543](https://huggingface.co/iconicrahul543)
 - 💻 GitHub: [Rahul543-ux](https://github.com/Rahul543-ux)
-- 🔗 LinkedIn: *(add your LinkedIn URL here)*
+- 🔗 LinkedIn: *(https://www.linkedin.com/in/rahul-prasad-ai)*
 
 <br/>
 
