@@ -363,7 +363,7 @@ def place_order(req: OrderReq):
 @app.get("/orders/kitchen")
 def kitchen_view():
     active = sorted(
-        [o for o in orders_db.values() if o["status"] in ["received","preparing"]],
+        [o for o in orders_db.values() if o["status"] in ["received","preparing","ready"]],
         key=lambda x: x["placed_at"]
     )
     return {"status":"ok","active_orders":len(active),"orders":active}
