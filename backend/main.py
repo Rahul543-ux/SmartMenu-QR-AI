@@ -433,6 +433,6 @@ def free_table(table_id: str):
         raise HTTPException(404, f"Table '{tid}' nahi mila!")
     tables_db[tid].update({"occupied":False,"guests":0,"status":"free"})
     for o in orders_db.values():
-    if o["table_id"] == tid and o["status"] == "delivered":
-        o["status"] = "completed"
+        if o["table_id"] == tid and o["status"] == "delivered":
+            o["status"] = "completed"
     return {"status":"ok","message":f"✅ Table {tid} free hai!","table":tables_db[tid]}
