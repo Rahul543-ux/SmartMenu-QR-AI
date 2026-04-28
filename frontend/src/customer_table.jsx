@@ -1175,8 +1175,10 @@ export default function CustomerTable() {
                   fontWeight: 600,
                   padding: "2px 8px",
                   borderRadius: 12,
-                  background: order.status === "ready"
-                    ? "#0a2a1a" : order.status === "preparing"
+                  
+                  background: order.status === "delivered"
+                    ? "#1e1b4b" : order.status === "ready" 
+                    ? "#0a2a1a" : order.status === "preparing" 
                     ? "#2a200a" : "#1a2a3a",
                   color: order.status === "ready"
                     ? "var(--green)" : order.status === "preparing"
