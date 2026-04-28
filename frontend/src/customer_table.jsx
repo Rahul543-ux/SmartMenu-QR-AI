@@ -801,7 +801,7 @@ export default function CustomerTable() {
         .then(r => r.json())
         .then(d => {
           const live = (d.orders || []).filter(
-            o => o.status !== "delivered"
+            o => o.status !== "completed"
           );
           setActiveOrders(live);
         })
