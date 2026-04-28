@@ -389,10 +389,6 @@ def update_status(order_id: str, req: StatusReq):
         raise HTTPException(404, f"'{order_id}' nahi mila!")
     orders_db[order_id]["status"]     = req.status
     orders_db[order_id]["updated_at"] = datetime.now().isoformat()
-    if req.status == "delivered":
-        tid = orders_db[order_id]["table_id"]
-        if tid in tables_db:
-            tables_db[tid].update({"status":"free","occupied":False,"guests":0})
     return {"status":"ok","message":f"✅ {order_id} → '{req.status}'",
             "order":orders_db[order_id]}
 
