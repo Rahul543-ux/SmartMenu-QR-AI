@@ -5,7 +5,7 @@
 <br/>
 
 [![Live API](https://img.shields.io/badge/Live%20API-Render-46E3B7?style=for-the-badge&logo=render)](https://smartmenu-qr-ai.onrender.com/docs)
-[![Frontend](https://img.shields.io/badge/Frontend-Vercel-000000?style=for-the-badge&logo=vercel)](https://smartmenu-frontend.vercel.app)
+[![Frontend](https://img.shields.io/badge/Frontend-Vercel-000000?style=for-the-badge&logo=vercel)](https://smart-menu-qr-ai.vercel.app)
 [![Model](https://img.shields.io/badge/Model-HuggingFace-FFD21E?style=for-the-badge&logo=huggingface)](https://huggingface.co/iconicrahul543/indian-food-recommender)
 [![GitHub](https://img.shields.io/badge/Backend-GitHub-181717?style=for-the-badge&logo=github)](https://github.com/Rahul543-ux/SmartMenu-QR-AI)
 
@@ -17,7 +17,7 @@
 
 | Service | URL |
 |---|---|
-| 🌐 Frontend Demo | https://smartmenu-frontend.vercel.app |
+| 🌐 Frontend Demo | https://smart-menu-qr-ai.vercel.app |
 | 📋 API Swagger Docs | https://smartmenu-qr-ai.onrender.com/docs |
 | 🤗 AI Model (HuggingFace) | https://huggingface.co/iconicrahul543/indian-food-recommender |
 
@@ -27,7 +27,7 @@
 
 ## 📱 What is SmartMenu?
 
-SmartMenu is a **production-ready AI restaurant system** where customers scan a QR code on their table, browse the menu, ask an AI waiter for recommendations, and place orders — all from their phone. Kitchen staff get a live dashboard with timers, and admins can manage the full menu in real time.
+SmartMenu is a **production-ready AI restaurant/Hotel system** where customers scan a QR code on their table or Room, browse the menu, ask an AI waiter for recommendations, and place orders — all from their phone. Kitchen staff get a live dashboard with timers, and admins can manage the full menu in real time.
 
 **The Problem it Solves:**
 - Traditional menus are static — no AI, no personalization
