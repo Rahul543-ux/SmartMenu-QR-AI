@@ -226,7 +226,7 @@ Each dish includes: `food_type`, `spice_level`, `category`, `region`, `meal_type
 
 ---
 
-## 🗺️ Roadmap — Phase 2 (Senior Level Upgrades)
+## 🗺️ Roadmap — Phase 2 (Next Upgrades)
 
 ```
 🔐 Authentication
