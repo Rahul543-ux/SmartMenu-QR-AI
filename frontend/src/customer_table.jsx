@@ -841,4 +841,500 @@ export default function CustomerTable() {
       const cur = prev[dishId];
       if (!cur) return prev;
       if (cur.qty <= 1) { const n = { ...prev }; delete n[dishId]; return n; }
-      return { ...pre
+      return { ...prev, [dishId]: { ...cur, qty: cur.qty - 1 } };
+    });
+  }, []);
+
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(""), 2500);
+  };
+
+  // AI recommend
+  const handleAI = async (e) => {
+    e.preventDefault();
+    if (!aiQuery.trim()) return;
+    setAiLoading(true);
+    setAiResults([]);
+    try {
+      const r = await fetch(`${API}/ai/recommend`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: aiQuery, top_n: 4 })
+      });
+      const d = await r.json();
+      setAiResults(d.results || []);
+    } catch {}
+    setAiLoading(false);
+  };
+
+  // Place order
+  const handlePlaceOrder = async () => {
+    if (!Object.keys(cart).length) return;
+    setPlacing(true);
+    const items = Object.values(cart).map(({ dish, qty }) => ({
+      dish_id:   dish.id,
+      dish_name: dish.dish,
+      quantity:  qty,
+      price:     dish.price,
+      special_note: note || null
+    }));
+    try {
+      const r = await fetch(`${API}/orders/place`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          table_id:       tableId || "T1",
+          guest_count:    guests,
+          items,
+          payment_method: payMethod
+        })
+      });
+      const d = await r.json();
+      setOrderResult(d);
+      setCart({});
+      setPhase("success");
+    } catch { showToast("Network error — try again!"); }
+    setPlacing(false);
+  };
+
+  // ── Grouped menu ──
+  const grouped = groupByCategory(menu);
+
+  // Tabs: "all" + categories that have items
+  const tabs = ["all", ...CAT_ORDER.filter(c => grouped[c]?.length)];
+
+  // Displayed dishes based on tab
+  const displayedGroups = activeTab === "all"
+    ? grouped
+    : { [activeTab]: grouped[activeTab] || [] };
+
+  // ═══════════════════════════════════════════
+  // RENDER — SPLASH
+  // ═══════════════════════════════════════════
+  if (phase === "splash") return (
+    <div className="splash">
+      <style>{styles}</style>
+      <div className="splash-logo">SmartMenu</div>
+      <div className="splash-tagline">Fine Dining · Smart Ordering</div>
+
+      <p style={{ color: "var(--muted)", fontSize: 13, marginBottom: 16 }}>
+        Select your table
+      </p>
+
+      <div className="table-grid">
+        {Array.from({ length: 10 }, (_, i) => `T${i + 1}`).map(t => (
+          <button
+            key={t}
+            className={`table-btn ${tableId === t ? "selected" : ""}`}
+            onClick={() => setTableId(t)}
+          >
+            <span className="t-num">{t}</span>
+            Table
+          </button>
+        ))}
+      </div>
+
+      <p style={{ color: "var(--muted)", fontSize: 13, marginBottom: 12 }}>
+        How many guests?
+      </p>
+
+      <div className="guest-selector">
+        <button className="guest-btn" onClick={() => setGuests(g => Math.max(1, g - 1))}>−</button>
+        <span className="guest-count">{guests}</span>
+        <button className="guest-btn" onClick={() => setGuests(g => Math.min(8, g + 1))}>+</button>
+      </div>
+
+      <button
+        className="btn-primary"
+        disabled={!tableId}
+        onClick={handleCheckin}
+      >
+        View Menu →
+      </button>
+
+      <p style={{ color: "var(--muted)", fontSize: 11, marginTop: 20, lineHeight: 1.6 }}>
+        🔒 In a real restaurant, QR code on your table opens this automatically
+      </p>
+    </div>
+  );
+
+  // ═══════════════════════════════════════════
+  // RENDER — SUCCESS
+  // ═══════════════════════════════════════════
+  if (phase === "success") return (
+    <div className="status-page">
+      <style>{styles}</style>
+      <div className="status-icon">🎉</div>
+      <h1 className="status-title">Order Placed!</h1>
+      <p className="status-sub">
+        Kitchen has received your order - please wait!
+      </p>
+
+      {orderResult && (
+        <div className="order-card">
+          <div className="order-id">Order # {orderResult.order_id}</div>
+
+          {/* Status steps */}
+          <div className="status-steps">
+            {["Received","Preparing","Ready","Served"].map((s, i) => (
+              <>
+                <div className="step" key={s}>
+                  <div className={`step-dot ${i === 0 ? "active" : ""}`}>
+                    {i === 0 ? "●" : i + 1}
+                  </div>
+                  <span className="step-label">{s}</span>
+                </div>
+                {i < 3 && <div className="step-line" key={`line-${i}`} />}
+              </>
+            ))}
+          </div>
+
+          {/* Bill */}
+          {orderResult.order?.items?.map((item, i) => (
+            <div className="cart-item" key={i}>
+              <div>
+                <div className="cart-item-name">{item.dish_name}</div>
+                <div className="cart-item-sub">×{item.quantity}</div>
+              </div>
+              <div className="cart-item-total">
+                ₹{item.price * item.quantity}
+              </div>
+            </div>
+          ))}
+
+          <div className="cart-total-row">
+            <span>Total</span>
+            <span className="cart-total-amt">
+              ₹{orderResult.order?.total_bill}
+            </span>
+          </div>
+
+          <div style={{
+            fontSize: 12, color: "var(--muted)",
+            background: "var(--bg)", borderRadius: 8,
+            padding: "8px 12px", marginTop: 8
+          }}>
+            💳 {orderResult.order?.payment_method === "pay_now"
+              ? "Payment received online" : "Pay at counter"}
+          </div>
+        </div>
+      )}
+
+      <button className="btn-outline" onClick={() => {
+        setOrderResult(null); setNote(""); setPhase("menu");
+      }}>
+        Order More Items
+      </button>
+    </div>
+  );
+
+  // ═══════════════════════════════════════════
+  // RENDER — CART SHEET
+  // ═══════════════════════════════════════════
+  const CartSheet = () => (
+    <div className="overlay" onClick={() => setPhase("menu")}>
+      <div className="sheet" onClick={e => e.stopPropagation()}>
+        <div className="sheet-handle" />
+        <div className="sheet-title">Your Order</div>
+
+        {Object.keys(cart).length === 0 ? (
+          <div className="empty-state">
+            <div className="empty-icon">🛒</div>
+            <div className="empty-txt">Cart is empty</div>
+          </div>
+        ) : (
+          <>
+            {/* Items */}
+            {Object.values(cart).map(({ dish, qty }) => (
+              <div className="cart-item" key={dish.id}>
+                <div>
+                  <div className="cart-item-name">{dish.dish}</div>
+                  <div className="cart-item-sub">
+                    ₹{dish.price} × {qty}
+                  </div>
+                </div>
+                <div className="cart-item-right">
+                  <div className="cart-item-total">₹{dish.price * qty}</div>
+                  <div className="qty-ctrl" style={{ marginTop: 6 }}>
+                    <button className="qty-btn" onClick={() => removeFromCart(dish.id)}>−</button>
+                    <span className="qty-num">{qty}</span>
+                    <button className="qty-btn" onClick={() => addToCart(dish)}>+</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* Total */}
+            <div className="cart-total-row">
+              <span>Total</span>
+              <span className="cart-total-amt">₹{cartTotal}</span>
+            </div>
+
+            {/* Note */}
+            <textarea
+              className="note-input"
+              placeholder="Special instructions... (e.g. no onion, less spicy)"
+              value={note}
+              onChange={e => setNote(e.target.value)}
+            />
+
+            {/* Payment */}
+            <p style={{ fontSize: 12, color: "var(--muted)", marginBottom: 10 }}>
+              Payment method:
+            </p>
+            <div className="pay-opts">
+              <div
+                className={`pay-opt ${payMethod === "pay_at_counter" ? "active" : ""}`}
+                onClick={() => setPayMethod("pay_at_counter")}
+              >
+                <span className="pay-opt-icon">🏪</span>
+                <div className="pay-opt-label">Pay at Counter</div>
+                <div className="pay-opt-sub">Cash / UPI</div>
+              </div>
+              <div
+                className={`pay-opt ${payMethod === "pay_now" ? "active" : ""}`}
+                onClick={() => setPayMethod("pay_now")}
+              >
+                <span className="pay-opt-icon">📱</span>
+                <div className="pay-opt-label">Pay Now</div>
+                <div className="pay-opt-sub">UPI / Card</div>
+              </div>
+            </div>
+
+            <button
+              className="btn-primary"
+              onClick={handlePlaceOrder}
+              disabled={placing}
+              style={{ marginTop: 8 }}
+            >
+              {placing ? "Placing Order..." : `Place Order · ₹${cartTotal}`}
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+
+  // ═══════════════════════════════════════════
+  // RENDER — MENU
+  // ═══════════════════════════════════════════
+  return (
+    <div>
+      <style>{styles}</style>
+      {toast && <div className="toast">✓ {toast}</div>}
+      {phase === "cart" && <CartSheet />}
+
+      {/* Header */}
+      <div className="header">
+        <div className="header-brand">SmartMenu</div>
+        <div className="header-table">
+          <strong>Table {tableId}</strong>
+          {guests} guest{guests > 1 ? "s" : ""}
+        </div>
+      </div>
+
+      {/* ✅ FIX Bug 4: Active Orders section */}
+      {activeOrders.length > 0 && (
+        <div style={{
+          margin: "12px 16px 0",
+          background: "#0d2b1a",
+          border: "1px solid #1a4d32",
+          borderRadius: "var(--radius)",
+          padding: "14px"
+        }}>
+          <div style={{
+            fontSize: 11, color: "var(--green)",
+            textTransform: "uppercase", letterSpacing: 2,
+            marginBottom: 10
+          }}>
+            📋 Your Active Orders
+          </div>
+          {activeOrders.map(order => (
+            <div key={order.order_id} style={{
+              background: "var(--bg)",
+              borderRadius: 8,
+              padding: "10px 12px",
+              marginBottom: 8,
+              border: "1px solid var(--border)"
+            }}>
+              <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: 4
+              }}>
+                <span style={{
+                  fontFamily: "monospace",
+                  fontSize: 12,
+                  color: "var(--gold)"
+                }}>
+                  {order.order_id}
+                </span>
+                <span style={{
+                  fontSize: 11,
+                  fontWeight: 600,
+                  padding: "2px 8px",
+                  borderRadius: 12,
+                  
+                  background: order.status === "delivered"
+                    ? "#1e1b4b" : order.status === "ready" 
+                    ? "#0a2a1a" : order.status === "preparing" 
+                    ? "#2a200a" : "#1a2a3a",
+
+                  color: order.status === "delivered" 
+                    ? "#c4b5fd" : order.status === "ready" 
+                    ? "var(--green)" : order.status === "preparing" 
+                    ? "#fbbf24" : "#60a5fa"
+                }}>
+                  {order.status === "delivered" ? "🍽️ Delivered" :
+                   order.status === "ready" ? "✅ Ready!" :
+                   order.status === "preparing" ? "🔥 Cooking" : "⏳ Received"}
+                </span>
+              </div>
+              <div style={{ fontSize: 12, color: "var(--muted)" }}>
+                {order.items?.map(i => `${i.dish_name} ×${i.quantity}`).join(", ")}
+              </div>
+              <div style={{
+                fontSize: 13, color: "var(--gold)",
+                fontWeight: 600, marginTop: 4
+              }}>
+                Total: ₹{order.total_bill}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* AI Bar */}
+      <div className="ai-bar">
+        <div className="ai-bar-title">
+          ✦ AI Waiter — Ask Anything
+        </div>
+        <form onSubmit={handleAI} className="ai-bar form">
+          <input
+            className="ai-input"
+            placeholder='e.g. "spicy chicken" or "₹100 mein kya milega"'
+            value={aiQuery}
+            onChange={e => setAiQuery(e.target.value)}
+          />
+          <button className="ai-go" type="submit" disabled={aiLoading}>
+            {aiLoading ? "..." : "Ask"}
+          </button>
+        </form>
+        {aiResults.length > 0 && (
+          <div className="ai-results">
+            {aiResults.map((r, i) => (
+              <div
+                key={i}
+                className="ai-result-chip"
+                onClick={() => {
+                  const found = menu.find(d => d.dish === r.dish);
+                  if (found) addToCart(found);
+                }}
+              >
+                <div>
+                  <div className="ai-chip-name">{r.dish}</div>
+                  <div className="ai-chip-meta">
+                    {r.food_type} · {r.spice_level} · {fmtCat(r.category)}
+                  </div>
+                </div>
+                <div>
+                  <div className="ai-chip-price">₹{r.price}</div>
+                  <div style={{ fontSize: 10, color: "var(--muted)", textAlign: "right" }}>
+                    tap to add
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Category Tabs */}
+      <div className="tabs">
+        {tabs.map(t => (
+          <button
+            key={t}
+            className={`tab ${activeTab === t ? "active" : ""}`}
+            onClick={() => setActiveTab(t)}
+          >
+            {t === "all" ? "All" : (CAT_EMOJI[t] || "") + " " + fmtCat(t)}
+          </button>
+        ))}
+      </div>
+
+      {/* Menu */}
+      <div className="menu-container">
+        {loading ? (
+          <div className="loading">
+            <div className="spin" /> Loading menu...
+          </div>
+        ) : (
+          Object.entries(displayedGroups).map(([cat, dishes]) => {
+            if (!dishes.length) return null;
+            return (
+              <div key={cat}>
+                <div className="cat-label">
+                  {CAT_EMOJI[cat] || "🍽"} {fmtCat(cat)}
+                </div>
+                {dishes.map(dish => {
+                  const qty = cart[dish.id]?.qty || 0;
+                  return (
+                    <div className="dish-card" key={dish.id}>
+                      <div className="dish-info">
+                        <div className="dish-name">{dish.dish}</div>
+                        <div className="dish-desc">{dish.description}</div>
+                        <div className="dish-tags">
+                          <span className={`tag ${
+                            dish.food_type === "non-veg" ? "tag-nonveg"
+                            : dish.food_type === "egg" ? "tag-egg"
+                            : "tag-veg"
+                          }`}>
+                            {dish.food_type === "non-veg" ? "🔴" : dish.food_type === "egg" ? "🥚" : "🟢"}{" "}
+                            {capitalize(dish.food_type)}
+                          </span>
+                          {dish.spice_level && dish.spice_level !== "non-spicy" && (
+                            <span className="tag tag-spice">
+                              🌶 {capitalize(dish.spice_level)}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="dish-right">
+                        <div className="dish-price">
+                          <span>₹</span>{dish.price}
+                        </div>
+                        {qty === 0 ? (
+                          <button className="add-btn" onClick={() => addToCart(dish)}>
+                            +
+                          </button>
+                        ) : (
+                          <div className="qty-ctrl">
+                            <button className="qty-btn" onClick={() => removeFromCart(dish.id)}>−</button>
+                            <span className="qty-num">{qty}</span>
+                            <button className="qty-btn" onClick={() => addToCart(dish)}>+</button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })
+        )}
+      </div>
+
+      {/* Cart FAB */}
+      {cartCount > 0 && (
+        <button className="cart-fab" onClick={() => setPhase("cart")}>
+          <span>View Cart</span>
+          <span className="cart-badge">{cartCount}</span>
+          <span>₹{cartTotal}</span>
+        </button>
+      )}
+    </div>
+  );
+}
+
+        
