@@ -56,17 +56,32 @@ print(f"✅ Menu loaded: {len(menu_db)} dishes")
 # ─────────────────────────────────────────
 orders_db     = {}
 order_counter = {"count": 1000}
-
+# Restaurant Tables T1-T10
 tables_db = {
     f"T{i}": {
         "table_id": f"T{i}",
         "capacity": 4,
         "occupied": False,
         "guests":   0,
-        "status":   "free"
+        "status":   "free",
+        "type":     "table"
     }
     for i in range(1, 11)
 }
+
+# Hotel Rooms R1-R5
+tables_db.update({
+    f"R{i}": {
+        "table_id": f"R{i}",
+        "capacity": 4,
+        "occupied": False,
+        "guests":   0,
+        "status":   "free",
+        "type":     "room"
+    }
+    for i in range(1, 6)
+})
+
 
 PRICE_MAP = {
     "flatbread": 80,  "breakfast": 100, "snack":     70,
