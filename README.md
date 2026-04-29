@@ -64,6 +64,12 @@ SmartMenu is a **production-ready AI restaurant/Hotel system** where customers s
 - Pay at counter / Pay Now (mock)
 - Track active order status live
 
+### 🏨 Hotel Room Service
+- QR on room → Food menu
+- Order food from room without calling reception
+- Eliminates constant hotel reception calls
+- Same AI recommendations work for room service
+
 ### 👨‍🍳 Kitchen Dashboard
 - Live order feed (auto-refreshes every 10s)
 - Real-time countdown timer per order
