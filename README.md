@@ -337,4 +337,4 @@ embeddings = model.encode(["Butter Chicken", "Masala Dosa"])
 
 > *"Built to solve a real problem — not just to check a portfolio box."*
 >
-> — Rahul Prasad, 2026
+> — Rahul Prasad — © 2026. All rights reserved.
