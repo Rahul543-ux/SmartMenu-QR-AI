@@ -537,7 +537,7 @@ export default function AdminDashboard() {
           >
             {t === "menu" ? "🍽 Menu" :
              t === "orders" ? "📋 Orders" :
-             t === "tables" ? "🪑 Tables" : "➕ Add Dish"}
+             t === "tables" ? "🪑 Tables & Rooms" : "➕ Add Dish"}
           </button>
         ))}
       </div>
@@ -666,6 +666,10 @@ export default function AdminDashboard() {
               >
                 <div className="tc-num">{t.table_id}</div>
                 <div className={`tc-status ${t.occupied ? "occ" : "free"}`}>
+                  {/* Add this line */}
+                  <span style={{fontSize:9, color:"var(--muted)"}}>
+                    {t.type === "room" ? "🏨 Room" : "🪑 Table"}
+                  </span>
                   {t.occupied ? "Occupied" : "Free"}
                 </div>
                 {t.occupied && (
