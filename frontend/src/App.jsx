@@ -302,7 +302,7 @@ export default function App() {
       <style>{styles}</style>
 
       <div className="home-logo">SmartMenu</div>
-      <div className="home-sub">AI · Restaurant · QR System</div>
+      <div className="home-sub">AI · Restaurant & Hotel · QR System</div>
       <div className="home-badge">
         <div className="dot" /> Live Demo
       </div>
