@@ -120,7 +120,7 @@ Intent Detection (rule-based NLP)
 Hard Filters (rule-based)
 → food_type, budget, availability
          ↓
-Semantic Similarity (fine-tuned Sentence Transformer)
+Semantic Similarity (pre-trained Sentence Transformer)
 → cosine similarity on dish descriptions
          ↓
 Top-N Recommendations
