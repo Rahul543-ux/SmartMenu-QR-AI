@@ -919,18 +919,20 @@ export default function CustomerTable() {
       <div className="splash-tagline">Fine Dining · Smart Ordering</div>
 
       <p style={{ color: "var(--muted)", fontSize: 13, marginBottom: 16 }}>
-        Select your table
+        Select your table or Room
       </p>
-
+      
       <div className="table-grid">
-        {Array.from({ length: 10 }, (_, i) => `T${i + 1}`).map(t => (
+        {[...Array.from({ length: 10 }, (_, i) => `T${i + 1}`),
+          ...Array.from({ length: 5  }, (_, i) => `R${i + 1}`) ].map(t => (
+      
           <button
             key={t}
             className={`table-btn ${tableId === t ? "selected" : ""}`}
             onClick={() => setTableId(t)}
           >
             <span className="t-num">{t}</span>
-            Table
+            {t.startsWith("R") ? "Room" : "Table"}
           </button>
         ))}
       </div>
@@ -954,7 +956,7 @@ export default function CustomerTable() {
       </button>
 
       <p style={{ color: "var(--muted)", fontSize: 11, marginTop: 20, lineHeight: 1.6 }}>
-        🔒 In a real restaurant, QR code on your table opens this automatically
+        🔒 In a real restaurant/Hotel, QR code on your table/Room opens this automatically
       </p>
     </div>
   );
