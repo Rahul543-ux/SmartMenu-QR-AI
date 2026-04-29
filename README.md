@@ -52,8 +52,8 @@ SmartMenu is a **production-ready AI restaurant/Hotel system** where customers s
 
 ## ✨ Features
 
-### 👤 Customer Table (QR Ordering)
-- Scan QR code → Auto-detect table
+### 👤 Customer Table/Room (QR Ordering)
+- Scan QR code → Auto-detect table/Room
 - Select number of guests
 - Browse full North + South Indian menu (87 dishes)
 - **AI Waiter** — type anything in natural language
@@ -79,7 +79,7 @@ SmartMenu is a **production-ready AI restaurant/Hotel system** where customers s
 - Revenue tracker
 
 ### 🤖 AI Recommendation Engine
-- Fine-tuned **Sentence Transformer** (`all-MiniLM-L6-v2`) on 87 Indian dishes
+- Hybrid Retrieval using pre-trained **Sentence Transformer** (`all-MiniLM-L6-v2`) on 87 Indian dishes
 - Smart **Intent Detection** — understands natural language
   - Veg / Non-veg detection (word boundary safe)
   - Category routing (drink, dessert, breakfast, main course...)
