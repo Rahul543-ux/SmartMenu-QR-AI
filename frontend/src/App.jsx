@@ -332,6 +332,27 @@ export default function App() {
         ))}
       </div>
 
+      {/* Hotel Rooms */}
+      <div className="demo-box">
+        <div className="demo-label">🏨 Hotel Room Service — Tap to Open</div>
+        {["R1","R2","R3"].map(r => (
+          <div className="demo-row" key={r}>
+            <div>
+              <div className="demo-row-info">Room {r}</div>
+              <div className="demo-row-sub">
+                QR → Room Service Menu → Order → Delivery
+              </div>
+            </div>
+            <button
+              className="demo-btn"
+              onClick={() => navigate("customer")}
+            >
+              Open →
+            </button>
+          </div>
+        ))}
+      </div>
+      
       {/* QR Code for T1 */}
       <div className="qr-section">
         <div className="qr-label">📷 Scan QR — Table T1</div>
