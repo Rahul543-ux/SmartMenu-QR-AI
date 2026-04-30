@@ -25,6 +25,21 @@
 
 ---
 
+## 🎬 Project Showcase
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=C12DkSubQnc">
+    <img src="assets/thumbnail.png" alt="Project Demo" width="700"/>
+  </a>
+</p>
+
+<p align="center">
+  👉 Click the image to watch full demo
+</p>
+
+
+---
+
 ## 📱 What is SmartMenu?
 
 SmartMenu is a **production-ready AI restaurant/Hotel system** where customers scan a QR code on their table or Room, browse the menu, ask an AI waiter for recommendations, and place orders — all from their phone. Kitchen staff get a live dashboard with timers, and admins can manage the full menu in real time.
