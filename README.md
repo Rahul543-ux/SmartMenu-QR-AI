@@ -37,7 +37,6 @@
   👉 Click the image to watch full demo
 </p>
 
-
 ---
 
 ## 📱 What is SmartMenu?
